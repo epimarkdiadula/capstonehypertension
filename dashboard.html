@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clinical Dashboard — OSMun XAI Hypertension Support</title>
+    <meta
+      name="description"
+      content="Caseload overview for the OSMun explainable AI hypertension support system: triage mix, BP classification distribution, mean risk score and the high-priority patient queue."
+    />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="css/styles.css?v=23" />
+    <script src="js/auth.js?v=8"></script>
+    <script>requireAuth();</script>
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <aside id="app-sidebar"></aside>
+      <div>
+        <div id="app-header"></div>
+        <main>
+          <div class="container">
+        <div class="page-title page-title-split">
+          <div>
+            <h1>Dashboard</h1>
+            <p class="muted">Summary of all saved patient assessments.</p>
+          </div>
+          <div class="btn-row">
+            <a class="btn btn-outline" href="records.html" id="btn-trends"></a>
+            <a class="btn btn-primary" href="index.html" id="btn-new"></a>
+          </div>
+        </div>
+
+        <!-- The 4 number cards -->
+        <div class="grid-kpi" id="kpis"></div>
+
+        <!-- Two charts -->
+        <div class="grid-charts">
+          <section class="card">
+            <header class="card-head-col">
+              <h3 class="card-title-lg">BP classification distribution</h3>
+              <p class="muted small">ACC/AHA categories across all logged encounters</p>
+            </header>
+            <div class="chart-box" id="class-chart"></div>
+          </section>
+
+          <section class="card">
+            <header class="card-head-col">
+              <h3 class="card-title-lg">Triage mix</h3>
+              <p class="muted small">Priority assigned by the decision engine</p>
+            </header>
+            <div class="chart-box" id="triage-chart"></div>
+          </section>
+        </div>
+
+        <!-- Two lists -->
+        <div class="grid-lists">
+          <section class="card">
+            <header class="card-head-col">
+              <h3 class="card-title-lg" id="queue-title"></h3>
+              <p class="muted small">Highest predicted episode risk needing action</p>
+            </header>
+            <div class="list-body" id="queue"></div>
+          </section>
+
+          <section class="card">
+            <header class="card-head-col">
+              <h3 class="card-title-lg" id="recent-title"></h3>
+              <p class="muted small">Latest saved assessments</p>
+            </header>
+            <div class="list-body" id="recent"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+      </div>
+    </div>
+
+    <div id="app-footer"></div>
+
+    <script src="js/engine.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/ui.js?v=7"></script>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

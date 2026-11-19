@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assessment Result — Hypertension Diagnostic Support | OSMun</title>
+    <meta name="description" content="Assessment result: hypertension classification, risk score, SHAP contributions and recommendations." />
+    <meta name="author" content="PLMun BSIT Capstone Team — Balonzo, Diadula, Naranjo" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="css/styles.css?v=23" />
+    <script src="js/auth.js?v=8"></script>
+    <script>requireAuth();</script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside id="app-sidebar"></aside>
+      <div>
+        <div id="app-header"></div>
+        <main>
+          <div class="container">
+        <div class="page-title page-title-split">
+          <div>
+            <h1>Assessment Result</h1>
+            <p class="muted">Live result for the patient currently open in the form.</p>
+          </div>
+          <a href="index.html" class="btn btn-outline" id="back-to-input">← Back to patient input</a>
+        </div>
+
+        <div class="stack">
+          <div id="diagnosis"></div>
+          <div id="importance"></div>
+          <div id="narrative"></div>
+          <div id="decision"></div>
+          <div id="ml-result"></div>
+        </div>
+      </div>
+    </main>
+      </div>
+    </div>
+
+    <div id="app-footer"></div>
+
+    <!-- Report pop-up -->
+    <dialog id="report-dialog" class="report-dialog">
+      <div class="report-head">
+        <div>
+          <h2>Clinical Diagnostic Summary Report</h2>
+          <p class="muted">OSMun-formatted assessment sheet · print or export as HTML</p>
+        </div>
+        <div class="report-actions">
+          <button type="button" class="btn btn-outline btn-sm" id="report-export"></button>
+          <button type="button" class="btn btn-primary btn-sm" id="report-print"></button>
+          <button type="button" class="btn btn-ghost btn-sm" id="report-close" aria-label="Close"></button>
+        </div>
+      </div>
+      <iframe id="report-frame" class="report-frame" title="Clinical report preview"></iframe>
+    </dialog>
+
+    <!-- Scripts: the ORDER matters (each one uses the ones above it) -->
+    <script src="js/engine.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/ui.js?v=7"></script>
+    <script src="js/result.js?v=2"></script>
+    <script>initResultPage();</script>
+  </body>
+</html>

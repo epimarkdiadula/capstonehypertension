@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patient Records &amp; BP Trends — OSMun XAI Diagnostic Support</title>
+    <meta
+      name="description"
+      content="Longitudinal blood pressure trends with guideline thresholds and a searchable, filterable log of AI-assisted hypertension assessments at Ospital ng Muntinlupa."
+    />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="css/styles.css?v=23" />
+    <script src="js/auth.js?v=8"></script>
+    <script>requireAuth();</script>
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <aside id="app-sidebar"></aside>
+      <div>
+        <div id="app-header"></div>
+        <main>
+          <div class="container">
+        <div class="page-title">
+          <p class="eyebrow text-primary">Longitudinal records</p>
+          <h1>Patient Records &amp; Blood Pressure Trends</h1>
+        </div>
+
+        <!-- 4 small stat boxes -->
+        <div class="grid-stats" id="stats"></div>
+
+        <!-- patient list + BP trend chart -->
+        <div class="grid-records">
+          <aside class="card">
+            <header class="card-head-col">
+              <h2 class="card-title">Patients</h2>
+              <p class="muted xs">Select to view BP trajectory</p>
+            </header>
+            <ul class="patient-list" id="patient-list"></ul>
+          </aside>
+
+          <section class="card">
+            <header class="card-head card-head-split">
+              <div>
+                <h2 class="card-title" id="trend-title"></h2>
+                <p class="muted xs">Systolic / diastolic across visits with ACC/AHA threshold lines</p>
+              </div>
+              <div class="legend">
+                <span><span class="line-swatch" style="background:var(--primary)"></span> Systolic</span>
+                <span><span class="line-swatch" style="background:var(--chart-5)"></span> Diastolic</span>
+              </div>
+            </header>
+            <div class="line-chart" id="line-chart"></div>
+          </section>
+        </div>
+
+        <!-- searchable log -->
+        <section class="card log-card">
+          <header class="card-head card-head-wrap">
+            <div class="grow-left">
+              <h2 class="card-title">Assessment log</h2>
+              <p class="muted xs" id="log-count"></p>
+            </div>
+            <div class="search-wrap">
+              <span class="search-icon" id="search-icon"></span>
+              <input class="input search-input" type="text" id="search" placeholder="Search name or patient ID" />
+            </div>
+            <select class="input filter-select" id="filter"></select>
+          </header>
+          <div class="table-scroll">
+            <table class="log-table">
+              <thead>
+                <tr>
+                  <th>Encounter</th>
+                  <th>Patient</th>
+                  <th>BP</th>
+                  <th>Classification</th>
+                  <th>Risk</th>
+                  <th>Clinician</th>
+                  <th class="right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="log-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+      </div>
+    </div>
+
+    <div id="app-footer"></div>
+
+    <script src="js/engine.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/ui.js?v=7"></script>
+    <script src="js/records.js"></script>
+  </body>
+</html>

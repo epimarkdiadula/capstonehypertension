@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — OSMun-XAI</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="css/styles.css?v=23" />
+</head>
+<body class="auth-portal-page">
+  <div class="auth-portal-wrap">
+    <div class="auth-portal-brand">
+      <img src="osmon-transparent.png" class="auth-portal-logo" alt="OSMun-XAI Logo" />
+      <h1 class="auth-portal-name">OSMun-XAI</h1>
+      <p class="auth-portal-tagline">Smarter Insights. Better Decisions.</p>
+    </div>
+
+    <div class="auth-portal-card">
+      <h2 class="auth-portal-heading">Welcome Back!</h2>
+      <p class="auth-portal-sub">Sign in to continue to OSMun-XAI</p>
+
+      <div class="auth-portal-tabs">
+        <button type="button" class="auth-portal-tab active" data-tab="login">Login</button>
+        <button type="button" class="auth-portal-tab" data-tab="signup">Sign Up</button>
+      </div>
+
+      <div id="login-form-wrap">
+        <div id="login-message" class="auth-portal-msg" hidden></div>
+        <form id="login-form" class="auth-portal-form">
+          <div class="auth-portal-field">
+            <span class="auth-portal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <input class="auth-portal-input" id="identifier" type="text" required autocomplete="username" placeholder="Staff ID / Username" />
+          </div>
+          <div class="auth-portal-field">
+            <span class="auth-portal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <input class="auth-portal-input" id="password" type="password" required autocomplete="current-password" placeholder="Password" />
+            <button type="button" id="pw-toggle" class="auth-portal-eye">👁</button>
+          </div>
+          <button class="auth-portal-btn" type="submit"><span>🔒</span> Sign In</button>
+        </form>
+        <p class="auth-portal-secure">🛡 Secure Access</p>
+      </div>
+
+      <div id="signup-form-wrap" hidden>
+        <div id="register-message" class="auth-portal-msg" hidden></div>
+        <form id="register-form" class="auth-portal-form">
+          <div class="auth-portal-field">
+            <input class="auth-portal-input" id="name" type="text" required placeholder="Full Name" />
+          </div>
+          <div class="auth-portal-field">
+            <input class="auth-portal-input" id="employeeId" type="text" required placeholder="Employee ID" />
+          </div>
+          <div class="auth-portal-field">
+            <input class="auth-portal-input" id="email" type="email" required placeholder="Email" />
+          </div>
+          <div class="auth-portal-field">
+            <input class="auth-portal-input" id="reg-password" type="password" required minlength="8" placeholder="Password (min 8 chars)" />
+          </div>
+          <div class="auth-portal-field">
+            <input class="auth-portal-input" id="confirm" type="password" required minlength="8" placeholder="Confirm Password" />
+          </div>
+          <button class="auth-portal-btn" type="submit"><span>🔒</span> Create Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="auth-portal-footer">Ospital ng Muntinlupa • OSMun-XAI Diagnostic Support System</footer>
+
+  <script src="js/auth.js?v=10"></script>
+  <script>
+    document.querySelectorAll('.auth-portal-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.auth-portal-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        document.getElementById('login-form-wrap').hidden = tab !== 'login';
+        document.getElementById('signup-form-wrap').hidden = tab !== 'signup';
+      });
+    });
+
+    const pw = document.getElementById('password');
+    document.getElementById('pw-toggle').addEventListener('click', () => {
+      pw.type = pw.type === 'password' ? 'text' : 'password';
+    });
+
+    const loginForm = document.getElementById('login-form');
+    const loginMsg = document.getElementById('login-message');
+    loginForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const result = await authLogin(
+        document.getElementById('identifier').value,
+        document.getElementById('password').value,
+        'Administrator'
+      );
+      if (!result.ok) {
+        loginMsg.hidden = false; loginMsg.style.color = '#fca5a5'; loginMsg.textContent = result.message; return;
+      }
+      const v = await authVerify2FA('123456');
+      if (!v.ok) {
+        loginMsg.hidden = false; loginMsg.style.color = '#fca5a5'; loginMsg.textContent = v.message; return;
+      }
+      window.location.href = 'index.html';
+    });
+
+    const regForm = document.getElementById('register-form');
+    const regMsg = document.getElementById('register-message');
+    regForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const password = document.getElementById('reg-password').value;
+      if (password !== document.getElementById('confirm').value) {
+        regMsg.hidden = false; regMsg.style.color = '#fca5a5'; regMsg.textContent = 'Passwords do not match.'; return;
+      }
+      const result = await authCreateUser({
+        name: document.getElementById('name').value,
+        employeeId: document.getElementById('employeeId').value,
+        email: document.getElementById('email').value,
+        role: 'Administrator',
+        password
+      });
+      regMsg.hidden = false;
+      if (!result.ok) { regMsg.style.color = '#fca5a5'; regMsg.textContent = result.message; return; }
+      regMsg.style.color = '#86efac'; regMsg.textContent = 'Account created. You can now sign in.';
+      document.querySelector('.auth-portal-tab[data-tab="login"]').click();
+    });
+  </script>
+</body>
+</html>

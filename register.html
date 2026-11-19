@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create User — OSMun-XAI</title><link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="auth-page">
+<div class="auth-simple-shell">
+  <div class="auth-simple-card">
+    <div class="auth-logo">⌁</div><h1>Create User Account</h1><p class="auth-subtitle">Register an authorized OSMun-XAI clinical user.</p>
+    <div id="register-message" class="auth-message" hidden></div>
+    <form id="register-form">
+      <label>Full Name</label><input id="name" required placeholder="e.g. Juan Dela Cruz" />
+      <label>Employee ID</label><input id="employeeId" required placeholder="e.g. OSM-EMP-001" />
+      <label>Email</label><input id="email" type="email" required placeholder="name@ospitalmuntinlupa.gov.ph" />
+      <label>Clinical Role</label>
+      <select id="role"><option>Physician</option><option>Nurse</option><option>Researcher</option><option>Administrator</option></select>
+      <label>Password</label><input id="password" type="password" minlength="8" required placeholder="At least 8 characters" />
+      <label>Confirm Password</label><input id="confirm" type="password" minlength="8" required placeholder="Re-enter your password" />
+      <button class="auth-primary" type="submit">Create User Account</button>
+    </form>
+    <p class="auth-create"><a href="login.html">← Back to sign in</a></p>
+    <div class="auth-security">Authorized personnel only. This static prototype stores accounts in this browser.</div>
+  </div>
+</div>
+<script src="js/auth.js"></script>
+<script>
+const form = document.getElementById('register-form'), msg = document.getElementById('register-message');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const password = document.getElementById('password').value;
+  if (password !== document.getElementById('confirm').value) { msg.hidden=false; msg.className='auth-message error'; msg.textContent='Passwords do not match.'; return; }
+  const result = authCreateUser({name:document.getElementById('name').value, employeeId:document.getElementById('employeeId').value, email:document.getElementById('email').value, role:document.getElementById('role').value, password});
+  msg.hidden=false;
+  if (!result.ok) { msg.className='auth-message error'; msg.textContent=result.message; return; }
+  msg.className='auth-message success'; msg.textContent='User account created successfully. Redirecting to sign in…';
+  setTimeout(()=>window.location.href='login.html', 800);
+});
+</script>
+</body>
+</html>
